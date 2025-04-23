@@ -1,0 +1,107 @@
+using UnityEngine;
+using System.Collections.Generic;
+public class InventoryManager : MonoBehaviour
+{
+    public List<Item> Inventory = new List<Item>();
+
+    public List<Item> ConnectionInventory = new List<Item>();
+
+    public int InventorySpace;
+    public static InventoryManager instance;
+    public ItemList Itemdata;
+    void Awake()
+    {
+        
+        if (!instance)
+        {
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        AddItem(1, 4);
+        AddItem(0, 2);
+    }
+
+    // Update is called once per frame
+    public bool AddItem(int ID,int Count = 1)
+    {
+        bool added = false;
+        ItemData temp  = GetItem(ID);
+        if (temp != null)
+        {
+            
+            for (int i = 0; i < InventorySpace; i++)
+            {
+                if (Inventory.Count - 1 < i)
+                {
+                    Inventory.Add(new Item());
+                }
+                if (Inventory[i]!= null)
+                {
+                    if (Inventory[i].ItemID == ID)
+                    {
+                       if(Inventory[i].ItemCount >= temp.MaxCount)
+                        {
+                            continue;
+                        }
+                        else
+                        {
+                            added = true;
+                            Inventory[i].ItemCount += i;
+                            break;
+                        }
+                    }
+                }
+            }
+            if (!added)
+            {
+                for (int i = 0; i < InventorySpace; i++)
+                {
+                    if (Inventory.Count - 1 < i)
+                    {
+                        Inventory.Add(new Item());
+                    }
+                    if (Inventory[i].ItemID == -1)
+                    {
+                        Inventory[i] = new Item();
+                        Inventory[i].ItemID = ID;
+                        Inventory[i].ItemCount = Count;
+                        added = true;
+                        break;
+                    }
+                }
+            }
+        }
+        return added;
+    }
+
+    public bool RemoveItem(int ID,int Count = 1)
+    {
+        return true;
+    }
+    public void ChangePlace(int origin,int Amount,int moved)
+    {
+
+    }
+    public ItemData GetItem(int ID)
+    {
+        for(int i=0; i< Itemdata.Sheet1.Count; i++)
+        {
+            if (Itemdata.Sheet1[i].ID == ID)
+            {
+                return Itemdata.Sheet1[i];
+            }
+        }
+        return null;
+    }
+    public Item GetItemAtPlace(int index)
+    {
+        if (Inventory[index] != null)
+        {
+            return Inventory[index];
+        }
+        else
+        {
+            return null;
+        }
+    }
+}
