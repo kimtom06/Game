@@ -1,103 +1,97 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(Rigidbody))]
-public class AIPathfinding : MonoBehaviour
+public class AStarPathfinding : MonoBehaviour
 {
     public Transform target;
-    public float moveSpeed = 3f;
-    public float cellSize = 1f;
-    public LayerMask wallMask;
+    public float moveSpeed = 5f;
 
+    private Vector3 startPos;
+    private List<Node> path = new List<Node>();
+    private Grid grid;
     private Rigidbody rb;
-    private Queue<Vector3> pathQueue = new Queue<Vector3>();
-    private Vector3 targetCell;
 
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-        InvokeRepeating(nameof(UpdatePath), 0f, 1f); // Update path every 1 second
+        grid = new Grid(10, 10, 1f); // Example grid size (10x10) with 1 unit per grid cell
+        startPos = transform.position;
+        FindPath(startPos, target.position);
     }
 
-    void FixedUpdate()
+    void Update()
     {
-        if (pathQueue.Count > 0)
+        if (path.Count > 0)
         {
-            Vector3 nextPos = pathQueue.Peek();
-            Vector3 dir = (nextPos - transform.position).normalized;
-            rb.MovePosition(transform.position + dir * moveSpeed * Time.fixedDeltaTime);
+            Vector3 targetPosition = path[0].position;
+            Vector3 moveDirection = targetPosition - transform.position;
+            rb.MovePosition(transform.position + moveDirection.normalized * moveSpeed * Time.deltaTime);
 
-            if (Vector3.Distance(transform.position, nextPos) < 0.1f)
-                pathQueue.Dequeue();
-        }
-    }
-
-    void UpdatePath()
-    {
-        Vector3 start = RoundToCell(transform.position);
-        Vector3 end = RoundToCell(target.position);
-        if (end != targetCell)
-        {
-            targetCell = end;
-            pathQueue = BFS(start, end);
-        }
-    }
-
-    Queue<Vector3> BFS(Vector3 start, Vector3 goal)
-    {
-        Queue<Vector3> frontier = new Queue<Vector3>();
-        Dictionary<Vector3, Vector3> cameFrom = new Dictionary<Vector3, Vector3>();
-
-        frontier.Enqueue(start);
-        cameFrom[start] = start;
-
-        Vector3[] directions = new Vector3[]
-        {
-            Vector3.forward * cellSize,
-            Vector3.back * cellSize,
-            Vector3.right * cellSize,
-            Vector3.left * cellSize
-        };
-
-        while (frontier.Count > 0)
-        {
-            Vector3 current = frontier.Dequeue();
-
-            if (current == goal)
-                break;
-
-            foreach (var dir in directions)
+            if (Vector3.Distance(transform.position, targetPosition) < 0.1f)
             {
-                Vector3 next = current + dir;
-                if (!cameFrom.ContainsKey(next) && !Physics.CheckBox(next, Vector3.one * (cellSize / 2f), Quaternion.identity, wallMask))
+                path.RemoveAt(0); // Move to next point
+            }
+        }
+    }
+
+    public void FindPath(Vector3 start, Vector3 end)
+    {
+        Node startNode = grid.GetNodeFromWorldPoint(start);
+        Node endNode = grid.GetNodeFromWorldPoint(end);
+
+        List<Node> openSet = new List<Node> { startNode };
+        HashSet<Node> closedSet = new HashSet<Node>();
+
+        while (openSet.Count > 0)
+        {
+            Node currentNode = openSet[0];
+            for (int i = 1; i < openSet.Count; i++)
+            {
+                if (openSet[i].FCost < currentNode.FCost || openSet[i].FCost == currentNode.FCost)
                 {
-                    frontier.Enqueue(next);
-                    cameFrom[next] = current;
+                    if (openSet[i].hCost < currentNode.hCost)
+                        currentNode = openSet[i];
+                }
+            }
+
+            openSet.Remove(currentNode);
+            closedSet.Add(currentNode);
+
+            if (currentNode == endNode)
+            {
+                RetracePath(startNode, endNode);
+                return;
+            }
+
+            foreach (Node neighbor in grid.GetNeighbors(currentNode))
+            {
+                if (!neighbor.walkable || closedSet.Contains(neighbor))
+                    continue;
+
+                float newGCost = currentNode.gCost + Vector3.Distance(currentNode.position, neighbor.position);
+                if (newGCost < neighbor.gCost || !openSet.Contains(neighbor))
+                {
+                    neighbor.gCost = newGCost;
+                    neighbor.hCost = Vector3.Distance(neighbor.position, endNode.position);
+                    neighbor.parent = currentNode;
+
+                    if (!openSet.Contains(neighbor))
+                        openSet.Add(neighbor);
                 }
             }
         }
-
-        var path = new Queue<Vector3>();
-        if (!cameFrom.ContainsKey(goal)) return path;
-
-        Vector3 curr = goal;
-        while (curr != start)
-        {
-            path.Enqueue(curr);
-            curr = cameFrom[curr];
-        }
-
-        var reversed = new Queue<Vector3>();
-        foreach (var pos in new List<Vector3>(path)) reversed.Enqueue(pos);
-        return new Queue<Vector3>(new Stack<Vector3>(path));
     }
 
-    Vector3 RoundToCell(Vector3 pos)
+    void RetracePath(Node startNode, Node endNode)
     {
-        return new Vector3(
-            Mathf.Round(pos.x / cellSize) * cellSize,
-            pos.y,
-            Mathf.Round(pos.z / cellSize) * cellSize
-        );
+        List<Node> finalPath = new List<Node>();
+        Node currentNode = endNode;
+        while (currentNode != startNode)
+        {
+            finalPath.Add(currentNode);
+            currentNode = currentNode.parent;
+        }
+        finalPath.Reverse();
+        path = finalPath;
     }
 }

@@ -4,7 +4,9 @@ using UnityEngine.InputSystem;
 
 public class Player : MonoBehaviour
 {
+    [HideInInspector]public HealthModule health;
     public List<Weapons> PlayerWeapon = new List<Weapons>();
+    public int WeaponIndex = 0;
     private void Start()
     {
         Initialize();
@@ -12,6 +14,7 @@ public class Player : MonoBehaviour
 
     private void Initialize()
     {
+        health = gameObject.GetComponent<HealthModule>();
         if (PlayerWeapon.Count != 4)
         {
             for (int i = 0; i < 4 - PlayerWeapon.Count; i++)
@@ -25,6 +28,7 @@ public class Player : MonoBehaviour
     {
         if (Input.GetAxis("Fire1") == 1)
         {
+            PlayerWeapon[WeaponIndex].Attack();
             print("Fire!");
         }
     }
