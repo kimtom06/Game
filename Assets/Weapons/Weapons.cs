@@ -3,6 +3,7 @@ using UnityEngine;
 public class Weapons : MonoBehaviour
 {
     public int Amount;
+    public int CurrentAmount;
     public bool Reroading = false;
     public void Attack()
     {
@@ -14,5 +15,9 @@ public class Weapons : MonoBehaviour
     public virtual void UseWeapon()
     {
 
+    }
+    private void Awake()
+    {
+        CurrentAmount = Amount;
     }
 }

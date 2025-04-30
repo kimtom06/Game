@@ -29,7 +29,6 @@ public class Player : MonoBehaviour
         if (Input.GetAxis("Fire1") == 1)
         {
             PlayerWeapon[WeaponIndex].Attack();
-            print("Fire!");
         }
     }
 }

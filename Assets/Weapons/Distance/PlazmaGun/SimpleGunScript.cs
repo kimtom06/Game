@@ -4,28 +4,41 @@ public class SimpleGunScript : Weapons
 {
     public GameObject bulletPrefab;
     public Transform firePoint;
-    public float fireRate = 0.2f;
+    public float fireRate = 5f;
     private float nextTimeToFire = 0f;
+    public Camera mainCamera; // Reference to your main camera
+
+    private void Start()
+    {
+        if (mainCamera == null)
+        {
+            mainCamera = Camera.main;
+        }
+    }
 
     public override void UseWeapon()
     {
-        if (Time.time >= nextTimeToFire && Amount > 0 && !Reroading)
+        if (Time.time >= nextTimeToFire && CurrentAmount > 0 && !Reroading)
         {
             Shoot();
-            nextTimeToFire = Time.time + 1f / fireRate;
-            Amount--;
+            nextTimeToFire = Time.time + (1f / fireRate);
+            CurrentAmount--;
         }
     }
 
     void Shoot()
     {
-        Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
-        Debug.Log("Shot fired! Ammo left: " + Amount);
+        Vector3 screenCenter = new Vector3(Screen.width / 2f, Screen.height / 2f, 0);
+        Ray ray = mainCamera.ScreenPointToRay(screenCenter);
+        Vector3 shootDirection = ray.direction;
+
+        GameObject bullet = Instantiate(bulletPrefab, firePoint.position, Quaternion.LookRotation(shootDirection));
+        Debug.Log("Shot fired! Ammo left: " + CurrentAmount);
     }
 
     public void Reload(int reloadAmount)
     {
-        if (Amount <= 0 && !Reroading)
+        if (CurrentAmount <= 0 && !Reroading)
         {
             Reroading = true;
             Debug.Log("Reloading...");
@@ -35,7 +48,7 @@ public class SimpleGunScript : Weapons
 
     void FinishReload()
     {
-        Amount = 30;
+        CurrentAmount = Amount;
         Reroading = false;
         Debug.Log("Reload complete!");
     }
