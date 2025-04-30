@@ -4,9 +4,11 @@ using UnityEngine.InputSystem;
 
 public class Player : MonoBehaviour
 {
+    public FirstPersonController fpsc;
     [HideInInspector]public HealthModule health;
     public List<Weapons> PlayerWeapon = new List<Weapons>();
     public int WeaponIndex = 0;
+    public bool useCross = false;
     private void Start()
     {
         Initialize();
@@ -26,6 +28,8 @@ public class Player : MonoBehaviour
     }
     private void Update()
     {
+        fpsc.lockCursor = useCross;
+        fpsc.cameraCanMove = useCross;
         if (Input.GetAxis("Fire1") == 1)
         {
             PlayerWeapon[WeaponIndex].Attack();

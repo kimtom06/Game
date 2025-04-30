@@ -2,18 +2,20 @@ using UnityEngine;
 using UnityEngine.UI;
 public class PlayerUIManager : MonoBehaviour
 {
+    public static PlayerUIManager instance;
+    public bool isOnWindows = false;
     public Slider HealthSlider;
     public Text HealthText;
     public Player player;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    private void Start()
     {
-        
+        instance = this;
     }
-
     // Update is called once per frame
     void Update()
     {
+        player.useCross = !isOnWindows;
         if (player)
         {
             if (HealthSlider)

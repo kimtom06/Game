@@ -1,7 +1,9 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 using System.Collections.Generic;
 public class InventoryUiManager : MonoBehaviour
 {
+    public GameObject InventoryHolder;
     public Transform SelectedParent;
     public static InventoryUiManager instance;
     public GameObject SlotPrefab;
@@ -9,11 +11,25 @@ public class InventoryUiManager : MonoBehaviour
     public List<InventorySlot> slotInstance = new List<InventorySlot>();
     List<Item> currentSlot = new List<Item>();
     List<Item> AdditionalSlot = new List<Item>();
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    
     void Start()
     {
+        InventoryHolder.SetActive(false);
         instance = this;
         OpenInventory(InventoryManager.instance.Inventory, InventoryManager.instance.ConnectionInventory);
+    }
+
+    private void Update()
+    {
+        PlayerUIManager.instance.isOnWindows = InventoryHolder.activeSelf;
+        if (Input.GetAxis("OpenIventory") == 1)
+        {
+            InventoryHolder.SetActive(true);
+        }
+        if (Input.GetAxis("Escape") == 1)
+        {
+            InventoryHolder.SetActive(false);
+        }
     }
     public bool ChangeItemLoc(int OriginalLoc,int NewLoc,bool Primary1 = true, bool Primary2 = true)
     {
@@ -86,9 +102,5 @@ public class InventoryUiManager : MonoBehaviour
         //currentSlot.Clear();
 
     }
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+
 }

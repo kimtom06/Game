@@ -43,15 +43,6 @@ public class HealthModule : MonoBehaviour
 
         Debug.LogWarning("All particles in pool are active. Consider increasing pool size.");
     }
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.CompareTag("Bullet")&& hitParticlePrefab)
-        {
-            Vector3 hitPoint = other.transform.position;
-            Quaternion rot = Quaternion.LookRotation(-other.transform.forward);
-            PlayParticle(hitPoint, rot);
-        }
-    }
     private IEnumerator<WaitForSeconds> DisableAfter(ParticleSystem ps)
     {
         yield return new WaitForSeconds(ps.main.duration);
@@ -66,7 +57,6 @@ public class HealthModule : MonoBehaviour
     }
     public bool Damage(int dam)
     {
-        print("nah");
         Health = Health - dam;
         Mathf.Clamp(Health, 0, MaxHealth);
         Alive = (Health != 0);

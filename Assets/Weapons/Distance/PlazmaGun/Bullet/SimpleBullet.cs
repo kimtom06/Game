@@ -1,31 +1,60 @@
 using UnityEngine;
 
+[RequireComponent(typeof(Collider))]
 public class SimpleBullet : MonoBehaviour
 {
     public int Damage = 10;
-    public float speed = 1f;
-    public GameObject bulletHolePrefab; // Assign your bullet hole prefab in the inspector
+    public float speed = 100f;
+    public GameObject bulletHolePrefab;
+    public float maxLifetime = 5f;
+
+    private Vector3 lastPosition;
+
+    void Start()
+    {
+        lastPosition = transform.position;
+        Destroy(gameObject, maxLifetime);
+    }
 
     void Update()
     {
         transform.position += transform.forward * speed * Time.deltaTime;
-    }
-    /*
-     *         if (bulletHolePrefab != null)
+        Vector3 direction = transform.position - lastPosition;
+        float distance = direction.magnitude;
+
+        if (distance > 0 && Physics.Raycast(lastPosition, direction.normalized, out RaycastHit hit, distance))
         {
-            ContactPoint contact = other.contactOffset();
-            GameObject bulletHole = Instantiate(bulletHolePrefab, contact.point + contact.normal * 0.001f, Quaternion.LookRotation(contact.normal));
-            bulletHole.transform.SetParent(other.transform);
+            HandleHit(hit.collider, hit.point, hit.normal);
         }
-    */
+
+        lastPosition = transform.position;
+    }
+
     void OnTriggerEnter(Collider other)
     {
-        print("hit!");
-        if (other.gameObject.GetComponent<HealthModule>())
+        HandleHit(other, transform.position, -transform.forward);
+    }
+
+    void HandleHit(Collider other, Vector3 hitPoint, Vector3 hitNormal)
+    {
+        HealthModule health = other.GetComponent<HealthModule>();
+        if (health != null)
         {
-            other.gameObject.GetComponent<HealthModule>().Damage(Damage);
+            Debug.Log("Hit!");
+            health.Damage(Damage);
+            health.PlayParticle(hitPoint, Quaternion.LookRotation(-transform.forward));
         }
+
+        if (bulletHolePrefab != null)
+        {
+            GameObject bulletHole = Instantiate(
+                bulletHolePrefab,
+                hitPoint + hitNormal * 0.001f,
+                Quaternion.LookRotation(hitNormal)
+            );
+            bulletHole.transform.SetParent(other.transform);
+        }
+
         Destroy(gameObject);
     }
-    
 }
