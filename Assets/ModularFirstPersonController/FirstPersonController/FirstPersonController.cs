@@ -22,6 +22,7 @@ public class FirstPersonController : MonoBehaviour
 
     public Camera playerCamera;
 
+
     public float fov = 60f;
     public bool invertCamera = false;
     public bool cameraCanMove = true;

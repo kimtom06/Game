@@ -24,10 +24,12 @@ public class InventoryUiManager : MonoBehaviour
         PlayerUIManager.instance.isOnWindows = InventoryHolder.activeSelf;
         if (Input.GetAxis("OpenIventory") == 1)
         {
+            PlayerUIManager.instance.player.CanReciveMoveInput = false;
             InventoryHolder.SetActive(true);
         }
         if (Input.GetAxis("Escape") == 1)
         {
+            PlayerUIManager.instance.player.CanReciveMoveInput = true;
             InventoryHolder.SetActive(false);
         }
     }
