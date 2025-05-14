@@ -72,6 +72,7 @@ Transform:
   - {fileID: 8203407846018417198}
   - {fileID: 8644036744014147516}
   - {fileID: 6039603194574013339}
+  - {fileID: 1743140784570957055}
   - {fileID: 7854480518467519917}
   - {fileID: 8836325880578969833}
   - {fileID: 2822743574994761954}
@@ -849,6 +850,37 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.25000057, y: 3, z: 2.9999995}
   m_Center: {x: -0.12499998, y: -1.5, z: 1.4999998}
+--- !u!1 &3201749840389752295
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1743140784570957055}
+  m_Layer: 0
+  m_Name: room_entry
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1743140784570957055
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3201749840389752295}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0.0000014305114, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 14.734962, y: 2.9988909, z: 2.9899912}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4620016278413368910}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3788154362512850613
 GameObject:
   m_ObjectHideFlags: 0
