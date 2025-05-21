@@ -19,59 +19,105 @@ public class InventoryManager : MonoBehaviour
         }
         AddItem(1, 4);
         AddItem(0, 2);
+        AddItem(12, 1);
     }
 
-    // Update is called once per frame
-    public bool AddItem(int ID,int Count = 1)
+    public List<Item> GetCardItemList()
     {
-        bool added = false;
-        ItemData temp  = GetItem(ID);
-        if (temp != null)
+        List<Item> temp = new List<Item>(); 
+        for(int i=0; i < Inventory.Count; i++)
         {
-            
-            for (int i = 0; i < InventorySpace; i++)
-            {
-                if (Inventory.Count - 1 < i)
+            try {
+                if (Itemdata.Sheet1[Inventory[i].ItemID].ItemType.ToString().Contains("card"))
                 {
-                    Inventory.Add(new Item());
-                }
-                if (Inventory[i]!= null)
-                {
-                    if (Inventory[i].ItemID == ID)
+                    print("yay");
+                    //im a card!
+                    bool pass = false;
+                    //first check if this has same card in temps
+                    for (int j = 0; j < temp.Count; j++)
                     {
-                       if(Inventory[i].ItemCount >= temp.MaxCount)
+                        if (temp[j].ItemID == Inventory[i].ItemID)
                         {
-                            continue;
-                        }
-                        else
-                        {
-                            added = true;
-                            Inventory[i].ItemCount += i;
+                            temp[j].ItemCount += Inventory[i].ItemCount;
+                            pass = true;
                             break;
                         }
                     }
+                    //no? ahh i guess youare the newbie
+                    if (!pass)
+                    {
+                        Item gem = new Item();
+                        gem.ItemID = Inventory[i].ItemID;
+                        gem.ItemCount = Inventory[i].ItemCount;
+                        temp.Add(gem);
+                    }
                 }
             }
-            if (!added)
+            catch
             {
+                print("nope");
+            }
+        }
+        print(temp);
+        return temp;
+    }
+    public bool AddItem(int ID,int Count = 1)
+    {
+        if (Count > 0)
+        {
+            bool added = false;
+            ItemData temp = GetItem(ID);
+            if (temp != null)
+            {
+
                 for (int i = 0; i < InventorySpace; i++)
                 {
                     if (Inventory.Count - 1 < i)
                     {
                         Inventory.Add(new Item());
                     }
-                    if (Inventory[i].ItemID == -1)
+                    if (Inventory[i] != null)
                     {
-                        Inventory[i] = new Item();
-                        Inventory[i].ItemID = ID;
-                        Inventory[i].ItemCount = Count;
-                        added = true;
-                        break;
+                        if (Inventory[i].ItemID == ID)
+                        {
+                            if (Inventory[i].ItemCount >= temp.MaxCount)
+                            {
+                                continue;
+                            }
+                            else
+                            {
+                                added = true;
+                                Inventory[i].ItemCount += i;
+                                break;
+                            }
+                        }
+                    }
+                }
+                if (!added)
+                {
+                    for (int i = 0; i < InventorySpace; i++)
+                    {
+                        if (Inventory.Count - 1 < i)
+                        {
+                            Inventory.Add(new Item());
+                        }
+                        if (Inventory[i].ItemID == -1)
+                        {
+                            Inventory[i] = new Item();
+                            Inventory[i].ItemID = ID;
+                            Inventory[i].ItemCount = Count;
+                            added = true;
+                            break;
+                        }
                     }
                 }
             }
+            return added;
         }
-        return added;
+        else
+        {
+            return (false);
+        }
     }
 
     public bool RemoveItem(int ID,int Count = 1)

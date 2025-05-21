@@ -1,7 +1,7 @@
 using UnityEngine;
 public enum ItemType
 {
-    card_wpr, card_wpm, card_sp, card_su, 
+    card_wpr, card_wpm, card_sp, card_su, Item
 }
 [System.Serializable]
 public class ItemData

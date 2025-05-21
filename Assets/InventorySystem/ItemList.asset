@@ -19,7 +19,7 @@ MonoBehaviour:
     _itemType: 0
     _itemPrice: 50
     _dropPrefabPath: 
-    _iconPath: Icon/0
+    _iconPath: Icon/Card_wp
     _stackCount: 16
     _attack: 200
     _defend: 0
@@ -31,7 +31,7 @@ MonoBehaviour:
     _itemType: 0
     _itemPrice: 20
     _dropPrefabPath: 
-    _iconPath: Icon/1
+    _iconPath: Icon/Card_wp
     _stackCount: 16
     _attack: 20
     _defend: 0
@@ -43,7 +43,7 @@ MonoBehaviour:
     _itemType: 0
     _itemPrice: 50
     _dropPrefabPath: 
-    _iconPath: 
+    _iconPath: Icon/Card_wp
     _stackCount: 16
     _attack: 250
     _defend: 0
@@ -55,7 +55,7 @@ MonoBehaviour:
     _itemType: 1
     _itemPrice: 50
     _dropPrefabPath: 
-    _iconPath: 
+    _iconPath: Icon/Card_wp
     _stackCount: 16
     _attack: 250
     _defend: 0
@@ -67,7 +67,7 @@ MonoBehaviour:
     _itemType: 0
     _itemPrice: 50
     _dropPrefabPath: 
-    _iconPath: 
+    _iconPath: Icon/Card_wp
     _stackCount: 16
     _attack: 400
     _defend: 0
@@ -80,7 +80,7 @@ MonoBehaviour:
     _itemType: 2
     _itemPrice: 500
     _dropPrefabPath: 
-    _iconPath: 
+    _iconPath: Icon/Card_sp
     _stackCount: 8
     _attack: 50
     _defend: 0
@@ -92,7 +92,7 @@ MonoBehaviour:
     _itemType: 3
     _itemPrice: 25
     _dropPrefabPath: 
-    _iconPath: 
+    _iconPath: Icon/Card_su
     _stackCount: 16
     _attack: 0
     _defend: 0
@@ -104,7 +104,7 @@ MonoBehaviour:
     _itemType: 3
     _itemPrice: 100
     _dropPrefabPath: 
-    _iconPath: 
+    _iconPath: Icon/Card_su
     _stackCount: 16
     _attack: 0
     _defend: 0
@@ -117,7 +117,7 @@ MonoBehaviour:
     _itemType: 2
     _itemPrice: 500
     _dropPrefabPath: 
-    _iconPath: 
+    _iconPath: Icon/Card_su
     _stackCount: 16
     _attack: 0
     _defend: 0
@@ -158,3 +158,17 @@ MonoBehaviour:
     _attack: 0
     _defend: 0
     _cap: 15
+  - _id: 12
+    _itemName: "\uC6B0\uC8FC\uC120 \uCE74\uB4DC\uD0A4"
+    _itemExp: "\uB2E4\uC74C\uBC29\uC73C\uB85C \uC9C4\uD589\uD558\uAE30 \uC704\uD574
+      \uD544\uC694\uD55C \uC5F4\uC1E0. \uD55C\uBC88 \uC0AC\uC6A9\uD558\uBA74 \uBCF4\uC548\uC0C1\uC758
+      \uC774\uC720\uB85C \uB09C\uB3C5\uD654\uB418\uBC84\uB824 \uC0AC\uC6A9\uD560
+      \uC218 \uC5C6\uAC8C\uB41C\uB2E4."
+    _itemType: 4
+    _itemPrice: 0
+    _dropPrefabPath: 
+    _iconPath: Icon/ItemIcon_3
+    _stackCount: 0
+    _attack: 0
+    _defend: 0
+    _cap: 0

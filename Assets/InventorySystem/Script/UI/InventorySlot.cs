@@ -31,7 +31,7 @@ public class InventorySlot : MonoBehaviour, IPointerDownHandler, IPointerUpHandl
     }
     private float pressTime = 0f;
     private bool isPressed = false;
-    public float requiredPressTime = 1f;
+    float requiredPressTime = 0.1f;
 
     void Update()
     {
