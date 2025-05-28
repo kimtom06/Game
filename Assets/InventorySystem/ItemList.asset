@@ -172,3 +172,14 @@ MonoBehaviour:
     _attack: 0
     _defend: 0
     _cap: 0
+  - _id: 13
+    _itemName: "\uBCA0\uD130\uB9AC"
+    _itemExp: "\uCE74\uB4DC\uB97C \uBCF5\uC0AC\uD560 \uB54C \uC0AC\uC6A9\uD55C\uB2E4."
+    _itemType: 4
+    _itemPrice: 0
+    _dropPrefabPath: 
+    _iconPath: 
+    _stackCount: 0
+    _attack: 0
+    _defend: 0
+    _cap: 0

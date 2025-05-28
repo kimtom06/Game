@@ -42,7 +42,7 @@ public class SimpleBullet : MonoBehaviour
             HealthModule health = other.GetComponent<HealthModule>();
             if (health != null)
             {
-                Debug.Log("Hit!");
+               // Debug.Log("Hit!");
                 health.Damage(Damage);
                 health.PlayParticle(hitPoint, Quaternion.LookRotation(-transform.forward));
             }

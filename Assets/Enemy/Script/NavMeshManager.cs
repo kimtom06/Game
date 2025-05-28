@@ -4,20 +4,21 @@ using Unity.AI.Navigation;
 
 public class NavMeshManager : MonoBehaviour
 {
-    public NavMeshSurface navMeshSurface;
+    private NavMeshSurface[] allSurfaces;
 
     void Start()
     {
-        if (navMeshSurface == null)
-        {
-            navMeshSurface = GetComponent<NavMeshSurface>();
-        }
+        // Find all NavMeshSurface components in the scene
+        allSurfaces = FindObjectsByType<NavMeshSurface>(FindObjectsSortMode.None);
 
-        BakeNavMesh();
+        BakeAllNavMeshes();
     }
 
-    public void BakeNavMesh()
+    public void BakeAllNavMeshes()
     {
-        navMeshSurface.BuildNavMesh();
+        foreach (var surface in allSurfaces)
+        {
+            surface.BuildNavMesh();
+        }
     }
 }

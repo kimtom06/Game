@@ -8,6 +8,7 @@ public class KnifeOfJusticeScript : Weapons
     public TrailRenderer Trail;
     private void Start()
     {
+        Heatbox.SetActive(false);
         Trail.emitting = false;
     }
     public override void UseWeapon()

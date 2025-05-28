@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Collections;
 public class HealthModule : MonoBehaviour
 {
-
+    [HideInInspector]public bool Angry = false;
     public bool Player = false;
     public bool ShowHealthbar = false;
     [HideInInspector]public bool Alive = true;
@@ -14,7 +14,7 @@ public class HealthModule : MonoBehaviour
     public int poolSize = 10;
     public GameObject DeathEffectPrefab;
     private List<ParticleSystem> particlePool;
-
+    
     void Awake()
     {
         rb = gameObject.GetComponent<Rigidbody>();
@@ -61,6 +61,7 @@ public class HealthModule : MonoBehaviour
     }
     public bool Damage(int dam)
     {
+        Angry = true;
         if (Player)
         {
             DamageViggnetteModule.instance.ApplyDamageEffect();
